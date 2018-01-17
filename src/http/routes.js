@@ -8,7 +8,6 @@ const routes = (server) => {
             res.send(await db.categories().all())
             next()
         } catch (error) {
-            console.log(error)
             res.send(error)
             next()
         }
