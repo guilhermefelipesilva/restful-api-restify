@@ -1,13 +1,19 @@
+const categories = require('../services/mysql')
 
 const routes = (server) => {
-    server.get('/', (req, res, next) => {
-        res.send('Tá indo... de novo')
-        next()
-    })
 
     server.get('categoria', (req, res, next) => {
-        res.send([1, 2, 3])
-        next()
+
+        categories
+            .then(categories => {
+                res.send(categories)
+                next()
+            })
+            .catch(error => {
+                res.send(error)
+                next()
+            })
+
     })
 
     server.post('categoria', (req, res, next) => {
@@ -25,6 +31,11 @@ const routes = (server) => {
     //     res.send()
     //     next()
     // })
+
+    server.get('/', (req, res, next) => {
+        res.send('Tá indo... de novo')
+        next()
+    })
 }
 
 module.exports = routes
