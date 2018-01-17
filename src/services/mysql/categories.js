@@ -1,15 +1,29 @@
 
 const categories = deps => {
-    const { connection } = deps
+    return {
+        
+        all: () => {
 
-    return new Promise((resolve, reject) => {
-        connection.query('SELECT * FROM categories', (error, results) => {
-            if (error) {
-                reject(error)
-            }
-            resolve({ categories: results })
-        })
-    })
+            return new Promise((resolve, reject) => {
+
+                const { connection } = deps
+
+                connection.query('SELECT * FROM categories', (error, results) => {
+                    if (error) {
+                        reject(error)
+                    }
+                    resolve({ categories: results })
+                })
+            })
+        },
+
+        save: (name) => { },
+
+        update: (id, name) => { },
+
+        del: (id) => { }
+    }
+
 }
 
 module.exports = categories
