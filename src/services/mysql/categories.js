@@ -1,7 +1,7 @@
 
 const categories = deps => {
     return {
-        
+
         all: () => {
 
             return new Promise((resolve, reject) => {
@@ -18,11 +18,51 @@ const categories = deps => {
             })
         },
 
-        save: (name) => { },
+        save: (name) => {
 
-        update: (id, name) => { },
+            return new Promise((resolve, reject) => {
 
-        del: (id) => { }
+                const { connection, errorHandler } = deps
+
+                connection.query('INSERT INTO categories (name) VALUES (?) ', [name], (error, results) => {
+                    if (error) {
+                        errorHandler(error, `Falha ao salvar categorias ${name}`, reject)
+                        return false
+                    }
+                    resolve({ categories: { name, id: results.insertId } })
+                })
+            })
+        },
+
+        update: (id, name) => {
+            return new Promise((resolve, reject) => {
+
+                const { connection, errorHandler } = deps
+
+                connection.query('UPDATE categories SET name = ? WHERE id = ?', [name, id], (error, results) => {
+                    if (error) {
+                        errorHandler(error, `Falha ao atualizar categoria ${name}`, reject)
+                        return false
+                    }
+                    resolve({ categories: { name, id: results.insertId } })
+                })
+            })
+        },
+
+        del: (id) => {
+            return new Promise((resolve, reject) => {
+
+                const { connection, errorHandler } = deps
+
+                connection.query('DELETE FROM categories WHERE id = ?', [id], (error, results) => {
+                    if (error) {
+                        errorHandler(error, `Falha ao excluir categoria id ${id}`, reject)
+                        return false
+                    }
+                    resolve({ message: 'Categoria removida com sucesso!' })
+                })
+            })
+        }
     }
 
 }
