@@ -1,6 +1,5 @@
 const test = require('ava')
 require('dotenv').config()
-const sha1 = require('sha1')
 
 const { connection, errorHandler } = require('./setup')
 const users = require('../users')({ connection, errorHandler })
