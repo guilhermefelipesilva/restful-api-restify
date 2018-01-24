@@ -24,7 +24,7 @@ test('Deve criar um usuário', async t => {
 
 test('Deve atualizar a senha de um usuário', async t => {
     await create()
-    const result = await users.update(1, sha1('654321'))
+    const result = await users.update(1, 654321)
     t.is(result.user.id, 1)
     t.is(result.affectedRows, 1)
 })
