@@ -6,8 +6,6 @@ const jwdMiddleware = (deps) => {
 
         if (!deps.exclusions.includes(req.href())) {
 
-            console.log(req.href())
-
             const token = req.headers['x-access-token']
 
             if (!token) {
@@ -15,13 +13,12 @@ const jwdMiddleware = (deps) => {
                 return false
             }
 
-            await jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
-                if (error) {
-                    res.send(403, { error: 'Token inválido' })
-                } else {
-                    console.log(decoded)
-                }
-            })
+            try {
+                req.decoded = jwt.verify(token, process.env.JWT_SECRET)
+            } catch (error) {
+                res.send(403, { error: 'Token inválido' })
+                return false
+            }
         }
 
         next()
