@@ -12,6 +12,15 @@ server.use(cors.actual)
 
 server.use(restify.plugins.bodyParser())
 
+server.use((req, res, next) => {
+
+    if (!req.headers['x-access-token']) {
+        res.send(403, {error: 'Token não encontrado'})
+        return false
+    }
+    next()
+})
+
 routes(server)
 
 module.exports = server
